@@ -1,6 +1,13 @@
 # docs-sphinx_summary
 ## 목표
-1. pdf 관련 : 오픈스택 문서가 openstack-manuals 있던 것이 문서팀 활동이 줄어들면서 설치 가이드가 앞으로는 manuals는 필수적인것만 종합하고, nova, netron 설치는 각 저장소에 저장
+1. pdf 관련 : 오픈스택 문서가 openstack-manuals 있던 것이 문서팀 활동이 줄어들면서 설치 가이드가 앞으로는 manuals는 필수적인것만 종합하고, nova, netron 설치는 각 저장소에 저장.
+
+![murano html site example](/images/murano-html_example.png)
+<murano의 html 템플릿 예시>
+![install-guide pdf template example](/images/install-guide-pdf_example.png)
+<install-guide의 pdf 템플릿 예시>
+
+따라서 각 저장소를 위한 폰트 경로 설정과 build.sh 복사, template이 필요하다.
 
 2. conf.py : pdf 지원하도록 바꾸어야 하는데 기존에서 어떻게 바꾸어야 한다 라는 아이디어를 가지고 있어야 일괄적으로 바꿀 수 있다. 일단은 수동으로 경로 찍고, 나중에 차차 자동화 하는 방식으로.
 
@@ -28,6 +35,7 @@ latex_elements = {
     # 'preamble': '',
 }
 '''
+'''
 
 * https://tex.stackexchange.com/questions/103704/how-to-properly-install-and-use-a-new-font-with-lualatex
 '''
@@ -44,7 +52,7 @@ pdfdoctheme에 직접 해보지는 못하고 Makefile이 있는 doc 경로에
 이렇게 되면 실제 openstack-manuals가 설치되는 서버의 디렉터리 경로와, 폰트를 모아놓을 디렉토리 결정, 각 언어별 폰트 테스트 후 테마 수정 을 앞으로 수행하면 될듯 합니다.
 '''
 
-## openstack-manuals에서 기본적인 rst -> pdf 변환 과정
+## openstack-manuals에서 기본적인 rst to pdf 변환 과정
 ### build_rsh.sh PDF generation part
 * http://git.openstack.org/cgit/openstack/openstack-manuals/tree/tools/build-rst.sh#n96
 '''
@@ -69,7 +77,7 @@ source-dir = doc/source
 warning-is-error = 1
 '''
 
-### html에서 pdf로 빌드
+### tox.ini에서 html to pdf로 빌드
 * http://git.openstack.org/cgit/openstack/openstack-manuals/tree/tox.ini#n41
 '''
 [testenv:pdfs]
@@ -79,6 +87,9 @@ commands =
 
 ###궁금한 사항
 * setup.cfg와 build_rsh.sh에서 $DIRECTORY / $BUILD_DIR 어떠한 상관?
+* setup.py와 setup.cfg 정확히 어떠한 역할을 하는가?
+* setuptools가 말하는 package는 무엇을 의미하는가?
+* setuptools가 distribute 하는 것은 무엇인가? 우리는 무슨 package를 distribute 하려는 것인가?
 
 ----------
 
@@ -90,7 +101,7 @@ commands =
 #### 파이썬 프로젝트 시작하기 - Virtualenv
 * http://www.flowdas.com/blog/%ED%8C%8C%EC%9D%B4%EC%8D%AC-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0-virtualenv/
 
-#### 파이썬 프로젝트 시작하기 - Distutils
+#### 파이썬 프로젝트 시작하기 - Distutils(setup.py)
 * http://www.flowdas.com/blog/%ED%8C%8C%EC%9D%B4%EC%8D%AC-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0-distutils/
 * 목적 : installing third-party modules. -> write a setup script (setup.py by convention)
 
