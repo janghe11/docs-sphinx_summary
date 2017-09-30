@@ -6,6 +6,44 @@
 
 3. requirements.txt test-requirements.txt / test-requirements.txt -> doc-tools, docs-theme 두개가 필요함. doc-tools 없는 것이 있을 것으로 예상. 이 부분 추가해야함.
 
+## conf.py의 폰트 경로 지정
+'''
+latex_elements = {
+    # The paper size ('letterpaper' or 'a4paper').
+    # 'papersize': 'letterpaper',
+
+    # set font (TODO: different fonts for translated PDF document builds)
+    'fontenc': '\\usepackage{fontspec}',
+    'fontpkg': '''\
+\defaultfontfeatures{Scale=MatchLowercase}
+\setmainfont{Liberation Serif}
+\setsansfont{Liberation Sans}
+\setmonofont[SmallCapsFont={Liberation Mono}]{Liberation Mono}
+''',
+
+    # The font size ('10pt', '11pt' or '12pt').
+    # 'pointsize': '10pt',
+
+    # Additional stuff for the LaTeX preamble.
+    # 'preamble': '',
+}
+'''
+
+* https://tex.stackexchange.com/questions/103704/how-to-properly-install-and-use-a-new-font-with-lualatex
+'''
+pdfdoctheme에 직접 해보지는 못하고 Makefile이 있는 doc 경로에 
+\setmainfont[
+    Path           = /home/jang/.local/share/fonts/,
+    Extension      = .ttf,
+    Ligatures      = TeX,
+    BoldFont       = Hack-Bold,
+    ItalicFont     = Hack-Italic,
+    BoldItalicFont = Hack-BoldItalic
+]{Hack-Regular}
+같이 수정해서 make를 해보니 오류없이 잘 생성이 되었습니다.
+이렇게 되면 실제 openstack-manuals가 설치되는 서버의 디렉터리 경로와, 폰트를 모아놓을 디렉토리 결정, 각 언어별 폰트 테스트 후 테마 수정 을 앞으로 수행하면 될듯 합니다.
+'''
+
 ## openstack-manuals에서 기본적인 rst -> pdf 변환 과정
 ### build_rsh.sh PDF generation part
 * http://git.openstack.org/cgit/openstack/openstack-manuals/tree/tools/build-rst.sh#n96
